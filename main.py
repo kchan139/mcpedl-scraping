@@ -23,7 +23,6 @@ def main():
     with open(output_filename, 'w', encoding='utf-8') as f:
         json.dump(data, f, ensure_ascii=False, indent=2)
     
-    print("\nScraping Summary:")
     print(f"Title: {data['title']}")
     print(f"Data saved to: {output_filename}")
 
