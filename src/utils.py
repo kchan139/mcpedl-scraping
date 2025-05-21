@@ -14,9 +14,15 @@ def extract_to_txt(filename, output_dir="output"):
         url = json_data["url"]
         
         # Extract content from description_field
+        content_to_skip = [
+            # Hard coded
+            "Spoiler", ',', '.'
+        ]
         content_items = []
         for item in json_data["description_field"]:
             if item["type"] == "text":
+                if item["content"] in content_to_skip:
+                    continue
                 content_items.append(item["content"])
             elif item["type"] in ["image", "youtube"]:
                 content_items.append(f"{item['url']}")
