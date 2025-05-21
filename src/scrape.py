@@ -25,7 +25,6 @@ def scrape_mcpedl_addon(url):
             'url': url,
             'title': None,
             'description_field': None,
-            'images': [],
         }
         
         # Extract title
