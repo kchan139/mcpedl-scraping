@@ -16,7 +16,7 @@ def extract_to_txt(filename, output_dir="output"):
         # Extract content from description_field
         content_to_skip = [
             # Hard coded
-            "Spoiler", ',', '.'
+            "Spoiler",
         ]
         content_items = []
         for item in json_data["description_field"]:
