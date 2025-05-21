@@ -39,3 +39,7 @@ Output files will be stored in the `output` directory:
 
 - Python 3.6+
 - Chrome/Chromium browser (for Selenium WebDriver)
+
+## Legal Notice
+
+This tool is for personal use only. Please respect MCPEDL's Terms of Service and use responsibly with reasonable request rates. Content from MCPEDL may be subject to copyright protection. The author assumes no liability for misuse of this tool.
