@@ -51,7 +51,10 @@ def scrape_mcpedl_addon(url):
                         } else if (node.nodeType === Node.ELEMENT_NODE) {
                             // Handle images
                             if (node.tagName === 'IMG') {
-                                result.push({ type: 'image', url: node.src });
+                                const src = node.src;
+                                if (src && !src.startsWith('data:image/png;')) {
+                                    result.push({ type: 'image', url: src });
+                                }
                             }
                             // Handle iframes (YouTube embeds)
                             else if (node.tagName === 'IFRAME') {
