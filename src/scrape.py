@@ -75,7 +75,7 @@ def scrape_mcpedl_addon(url):
             post_tags_elem = driver.find_element(By.CSS_SELECTOR, 'p.post-tags')
             data['post_tags'] = post_tags_elem.text.strip()
         except Exception as e:
-            print(f"Failed to extract post tags: {e}")
+            print(f"No post-tags element.")
             data['post_tags'] = None
         
         return data
