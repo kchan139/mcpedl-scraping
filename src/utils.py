@@ -45,8 +45,7 @@ def extract_to_txt(filename, output_dir="output"):
         
         # Write to text file
         with open(output_file, "w", encoding="utf-8") as f:
-            f.write(f"URL: {url}\n")
-            f.write(f"Title: {title}\n")
+            f.write(f"Title: \n{title}\n")
             f.write("\nContent:\n")
             f.write(f"{content}\n")
             f.write(f"\n{post_tags}\n")
