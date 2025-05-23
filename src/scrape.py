@@ -24,7 +24,9 @@ def scrape_mcpedl_addon(url):
         data = {
             'url': url,
             'title': None,
+            'introduction_field': None,
             'description_field': None,
+            'post_tags': None,
         }
         
         # Extract title
@@ -33,6 +35,23 @@ def scrape_mcpedl_addon(url):
             data['title'] = title_elem.text.strip()
         except:
             pass
+        
+        # Extract introduction field content in exact order - text and image links only
+        try:
+            introduction_field = driver.find_element(By.CSS_SELECTOR, '.introduction-field')
+            
+            # Use JavaScript to extract content in order
+            js_file_path = os.path.join(os.path.dirname(__file__), 'extract_content.js')
+            with open(js_file_path, 'r') as f:
+                js_script = f.read()
+
+            ordered_content = driver.execute_script(js_script + "return extractContent(arguments[0]);", introduction_field)
+            
+            data['introduction_field'] = ordered_content
+            
+        except Exception as e:
+            print(f"Failed to extract introduction field: {e}")
+            data['introduction_field'] = None
         
         # Extract description field content in exact order - text and image links only
         try:
@@ -50,6 +69,14 @@ def scrape_mcpedl_addon(url):
         except Exception as e:
             print(f"Failed to extract description field: {e}")
             data['description_field'] = None
+        
+        # Extract post tags
+        try:
+            post_tags_elem = driver.find_element(By.CSS_SELECTOR, 'p.post-tags')
+            data['post_tags'] = post_tags_elem.text.strip()
+        except Exception as e:
+            print(f"Failed to extract post tags: {e}")
+            data['post_tags'] = None
         
         return data
     

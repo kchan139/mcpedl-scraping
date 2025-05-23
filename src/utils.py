@@ -12,13 +12,27 @@ def extract_to_txt(filename, output_dir="output"):
         # Extract title and URL
         title = json_data["title"]
         url = json_data["url"]
-        
-        # Extract content from description_field
+        post_tags = json_data["post_tags"]
+
         content_to_skip = [
             # Hard coded
             "Spoiler",
         ]
+
+        for item in content_to_skip:
+            item = item.lower()
+        
+        # Extract content from introduction_field
         content_items = []
+        for item in json_data["introduction_field"]:
+            if item["type"] == "text":
+                if item["content"] in content_to_skip:
+                    continue
+                content_items.append(item["content"])
+            elif item["type"] in ["image", "youtube"]:
+                content_items.append(f"{item['url']}")
+
+        # Extract content from description_field
         for item in json_data["description_field"]:
             if item["type"] == "text":
                 if item["content"] in content_to_skip:
@@ -34,7 +48,8 @@ def extract_to_txt(filename, output_dir="output"):
             f.write(f"Title: {title}\n")
             f.write(f"URL: {url}\n")
             f.write("\nContent:\n")
-            f.write(content)
+            f.write(f"{content}\n")
+            f.write(f"\nTags: {post_tags}\n")
         
         print(f"Data successfully written to {output_file}")
         return True
