@@ -1,5 +1,7 @@
+import re
 import os
 import json
+from bs4 import BeautifulSoup
 
 def extract_to_txt(filename, output_dir="output"):    
     os.makedirs(output_dir, exist_ok=True)
@@ -11,7 +13,6 @@ def extract_to_txt(filename, output_dir="output"):
         
         # Extract title and URL
         title = json_data["title"]
-        url = json_data["url"]
         post_tags = json_data["post_tags"]
 
         content_to_skip = [
@@ -42,6 +43,7 @@ def extract_to_txt(filename, output_dir="output"):
                 content_items.append(f"{item['url']}")
         
         content = "\n".join(content_items)
+        content = clean_html(content)
         
         # Write to text file
         with open(output_file, "w", encoding="utf-8") as f:
@@ -57,3 +59,8 @@ def extract_to_txt(filename, output_dir="output"):
     except Exception as e:
         print(f"Error processing {filename}: {str(e)}")
         return False
+    
+def clean_html(content):
+    soup = BeautifulSoup(str(content), 'html.parser')
+    clean_content = soup.get_text(separator='\n', strip=True)
+    return clean_content
