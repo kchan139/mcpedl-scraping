@@ -9,7 +9,6 @@ def initialize_firebase():
     """Initialize Firebase Admin SDK"""
     # Check if Firebase is already initialized
     if not firebase_admin._apps:
-        # You need to put your service account key JSON file in the project root
         # Download it from Firebase Console -> Project Settings -> Service Accounts
         cred = credentials.Certificate("../top-secret.json")
 
@@ -117,8 +116,10 @@ def upload_to_firebase(data, addon_id=None, category=None):
         addon_entry = {
             "activated": 1,
             "desData": des_data,
+            "download": category,
             "introduction": title,
-            "tag": post_tags if post_tags else "",
+            "image": "",
+            "tag": post_tags if post_tags else ", ",
         }
 
         # Generate addon ID if not provided
