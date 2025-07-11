@@ -2,3 +2,4 @@ bs4
 selenium
 requests_html
 webdriver_manager
+firebase-admin
