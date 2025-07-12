@@ -70,7 +70,7 @@ def process_post_tags(post_tags):
         return ", "
 
     # Remove "Tags: " prefix if present
-    if post_tags.startswith("Tags: "):
+    if post_tags.startswith("Tags:"):
         tags_part = post_tags[6:]
     else:
         tags_part = post_tags
