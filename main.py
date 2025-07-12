@@ -6,16 +6,16 @@ from src.firebase_utils import upload_to_firebase
 
 def main():
     if len(sys.argv) < 2:
-        print("Usage: python3 main.py <url> [category] [addon_id]")
+        print("Usage: python3 main.py <category> <category_id> <url>")
         print("Category: addons, textures, maps")
         print(
-            "Example: python3 main.py https://mcpedl.com/the-fates-intertwined/ addons my_addon_1"
+            "Example: python3 main.py addons addon1 https://mcpedl.com/the-fates-intertwined/"
         )
         return
 
-    url = sys.argv[1]
-    category = sys.argv[2] if len(sys.argv) > 2 else None
-    addon_id = sys.argv[3] if len(sys.argv) > 3 else None
+    category = sys.argv[1]
+    category_id = sys.argv[2] if len(sys.argv) > 2 else None
+    url = sys.argv[3] if len(sys.argv) > 3 else None
 
     # Validate category if provided
     valid_categories = ["addons", "textures", "maps"]
@@ -34,7 +34,7 @@ def main():
     print(f"Title: {data['title']}")
 
     # Upload directly to Firebase
-    success = upload_to_firebase(data, addon_id, category)
+    success = upload_to_firebase(data, category_id, category)
 
     if success:
         print("Data successfully uploaded to Firebase!")
