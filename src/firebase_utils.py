@@ -116,7 +116,9 @@ def upload_to_firebase(data, addon_id=None, category=None):
         addon_entry = {
             "activated": 1,
             "desData": des_data,
-            "download": category,
+            "download": {
+                category: ""
+            },
             "introduction": title,
             "image": "",
             "tag": post_tags if post_tags else ", ",
