@@ -64,10 +64,10 @@ def process_content_fields(introduction_field, description_field):
 
     return cleaned_content
 
-def process_post_tags(post_tags):
+def process_post_tags(post_tags, category):
     """Process post tags to extract and format tag list"""
     if not post_tags:
-        return ", "
+        return "16x, " if category == "textures" else ", "
 
     # Remove "Tags: " prefix if present
     if post_tags.startswith("Tags:"):
@@ -100,7 +100,7 @@ def upload_to_firebase(data, addon_id=None, category=None):
         des_data = process_content_fields(introduction_field, description_field)
 
         # Process post tags
-        processed_tags = process_post_tags(post_tags)
+        processed_tags = process_post_tags(post_tags, category)
 
         # Use provided category or determine automatically
         if not category:
