@@ -10,7 +10,9 @@ def initialize_firebase():
     # Check if Firebase is already initialized
     if not firebase_admin._apps:
         # Download it from Firebase Console -> Project Settings -> Service Accounts
-        cred = credentials.Certificate("../top-secret.json")
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(base_dir, "..", "top-secret.json")
+        cred = credentials.Certificate(json_path)
 
         firebase_admin.initialize_app(
             cred, {"databaseURL": "https://mcpe-addon.firebaseio.com"}
