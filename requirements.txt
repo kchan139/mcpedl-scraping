@@ -1,5 +1,5 @@
-bs4
-selenium
-requests_html
-webdriver_manager
-firebase-admin
+beautifulsoup4==4.12.3
+selenium==4.16.0
+requests_html==0.10.0
+webdriver_manager==4.0.1
+firebase-admin==6.5.0
