@@ -64,32 +64,23 @@ def process_content_fields(introduction_field, description_field):
 
     return cleaned_content
 
+def process_post_tags(post_tags):
+    """Process post tags to extract and format tag list"""
+    if not post_tags:
+        return ", "
 
-def determine_category(url, title, post_tags):
-    """Determine if the addon is addon, texture, or map based on URL, title, or tags"""
-    url_lower = url.lower()
-    title_lower = title.lower() if title else ""
-    tags_lower = post_tags.lower() if post_tags else ""
+    # Remove "Tags: " prefix if present
+    if post_tags.startswith("Tags: "):
+        tags_part = post_tags[6:]
+    else:
+        tags_part = post_tags
 
-    # Check for textures/resource packs
-    texture_keywords = ["texture", "resource pack", "skin", "shader"]
-    if any(
-        keyword in url_lower or keyword in title_lower or keyword in tags_lower
-        for keyword in texture_keywords
-    ):
-        return "textures"
-
-    # Check for maps
-    map_keywords = ["map", "world", "seed"]
-    if any(
-        keyword in url_lower or keyword in title_lower or keyword in tags_lower
-        for keyword in map_keywords
-    ):
-        return "maps"
-
-    # Default to addons
-    return "addons"
-
+    # Split by spaces and join with commas
+    tags = tags_part.split()
+    if tags:
+        return ", ".join(tags) + ", "
+    else:
+        return ", "
 
 def upload_to_firebase(data, addon_id=None, category=None):
     """Upload scraped data to Firebase Realtime Database"""
@@ -108,6 +99,9 @@ def upload_to_firebase(data, addon_id=None, category=None):
         # Process content fields
         des_data = process_content_fields(introduction_field, description_field)
 
+        # Process post tags
+        processed_tags = process_post_tags(post_tags)
+
         # Use provided category or determine automatically
         if not category:
             category = determine_category(data.get("url", ""), title, post_tags)
@@ -121,7 +115,7 @@ def upload_to_firebase(data, addon_id=None, category=None):
             },
             "introduction": title,
             "image": "",
-            "tag": post_tags if post_tags else ", ",
+            "tag": processed_tags
         }
 
         # Generate addon ID if not provided
