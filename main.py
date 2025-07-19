@@ -31,7 +31,7 @@ def main():
         print("Failed to scrape the page.")
         return
 
-    print(f"Title: {data['title']}")
+    # print(f"Title: {data['title']}")
 
     # Upload directly to Firebase
     success = upload_to_firebase(data, category_id, category)
