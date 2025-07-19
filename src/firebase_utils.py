@@ -18,13 +18,12 @@ def initialize_firebase():
             cred, {"databaseURL": "https://mcpe-addon.firebaseio.com"}
         )
 
-
 def clean_html(content):
     """Clean HTML content and return plain text"""
-    soup = BeautifulSoup(str(content), "html.parser")
-    clean_content = soup.get_text(separator="\n", strip=True)
-    return clean_content
-
+    if not isinstance(content, str) or not any(c in content for c in "<>&"):
+        return content.strip() if isinstance(content, str) else ""
+    soup = BeautifulSoup(content, "html.parser")
+    return soup.get_text(separator="\n", strip=True)
 
 def process_content_fields(introduction_field, description_field):
     """Process introduction and description fields into desData array"""
@@ -64,9 +63,13 @@ def process_content_fields(introduction_field, description_field):
         if isinstance(item, str) and item.strip().lower().startswith(("http://", "https://")):
             cleaned_content.append(item)
         else:
-            cleaned_item = clean_html(item)
-            if cleaned_item.strip():
-                cleaned_content.append(cleaned_item)
+            # Skip if item looks like a filename
+            if isinstance(item, str) and (item.endswith('.html') or item.endswith('.txt') or os.path.isfile(item)):
+                cleaned_content.append(item)
+            else:
+                cleaned_item = clean_html(item)
+                if cleaned_item.strip():
+                    cleaned_content.append(cleaned_item)
 
     return cleaned_content
 
