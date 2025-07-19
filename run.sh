@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 if [ "$#" -lt 1 ] || [ "$#" -gt 3 ]; then
     echo "Usage: ./run.sh <category> <category_id> <url>"

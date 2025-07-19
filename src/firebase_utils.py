@@ -60,9 +60,13 @@ def process_content_fields(introduction_field, description_field):
     # Clean HTML from each content item
     cleaned_content = []
     for item in content_items:
-        cleaned_item = clean_html(item)
-        if cleaned_item.strip():  # Only add non-empty content
-            cleaned_content.append(cleaned_item)
+        # Skip cleaning if the item is a URL (starts with http/https)
+        if isinstance(item, str) and item.strip().lower().startswith(("http://", "https://")):
+            cleaned_content.append(item)
+        else:
+            cleaned_item = clean_html(item)
+            if cleaned_item.strip():
+                cleaned_content.append(cleaned_item)
 
     return cleaned_content
 
