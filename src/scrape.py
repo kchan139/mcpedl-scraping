@@ -15,7 +15,15 @@ def scrape_mcpedl_addon(url):
     options.add_argument("--no-sandbox")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # service = Service("/Users/ngocphuong/.wdm/drivers/chromedriver/mac64/138.0.7204.94/chromedriver-mac-arm64/chromedriver")
+    # driver = webdriver.Chrome(service=service, options=options)
+    # 
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+    driver = webdriver.Chrome(
+        service=Service(ChromeDriverManager().install()),
+        options=options
+    )
     
     try:
         driver.get(url)
