@@ -41,11 +41,11 @@ def main():
     else:
         print("Failed to upload to Firebase.")
 
-        # Optionally save to local JSON as backup
-        output_filename = "output/mcpedl_data.json"
-        with open(output_filename, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        print(f"Data saved locally to: {output_filename}")
+        # Save URL + addonID as plain text backup (append)
+        backup_filename = "output/failed_uploads.txt"
+        with open(backup_filename, "a", encoding="utf-8") as f:
+            f.write(f"{category_id} | {url}\n")
+        print(f"Backup saved to: {backup_filename}")
 
 
 if __name__ == "__main__":
